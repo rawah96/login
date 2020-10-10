@@ -4,31 +4,36 @@ import { refreshTokenSetup } from '../../utils/refreshToken';
 
 const clientId = "304788118855-l4frhratrtujhhlkq20482an60okom01.apps.googleusercontent.com"
 const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    alert(
-      `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-    );
+    // alert(
+    //   `in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
+    // );
     refreshTokenSetup(res);
   };
 
   const onFailure = (res) => {
-    console.log('Login failed: res:', res);
-    alert(
-      `Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`
-    );
+    // alert(
+    //   `Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`
+    // );
   };
 
 function Login() {
+  const handleName = (res) => {
+    console.log(res.profileObj.name)
+    setName(res.profileObj.name);
+  }
+
+  const [name, setName] = useState('');
     return (
         <div>
         <GoogleLogin
         clientId={clientId}
         buttonText="Login"
-        onSuccess={onSuccess}
+        onSuccess={handleName}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}
         style={{ marginTop: '100px' }}
         isSignedIn={true} />
+        {name ? <h1 id="logged">Logged in as {name}</h1> : null}
         </div>
     )
 }
